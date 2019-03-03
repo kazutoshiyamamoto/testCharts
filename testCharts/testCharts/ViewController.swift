@@ -15,8 +15,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.pieChartsView.usePercentValuesEnabled = true
         self.pieChartsView.centerText = "テストデータ"
         
         let dataEntries = [
@@ -25,16 +23,21 @@ class ViewController: UIViewController {
             PieChartDataEntry(value: 25, label: "C")
         ]
         
-        let dataSet = PieChartDataSet(values: dataEntries, label: "データの割合")
+        let dataSet = PieChartDataSet(values: dataEntries, label: "データ")
         dataSet.colors = ChartColorTemplates.vordiplom()
         dataSet.valueTextColor = UIColor.black
         dataSet.entryLabelColor = UIColor.black
-        
         self.pieChartsView.data = PieChartData(dataSet: dataSet)
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 2
+        formatter.multiplier = 1.0
+        self.pieChartsView.data?.setValueFormatter(DefaultValueFormatter(formatter: formatter))
+        
+        self.pieChartsView.usePercentValuesEnabled = true
         
         view.addSubview(self.pieChartsView)
     }
-
-
 }
 
